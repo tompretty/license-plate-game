@@ -38,6 +38,7 @@ type EnterPairPageProps = {
 function EnterPairPage({ onPairSelected }: EnterPairPageProps) {
   const [firstLetter, setFirstLetter] = useState("");
   const [lastLetter, setLastLetter] = useState("");
+  const [showErrors, setShowErrors] = useState(false);
 
   const firstRef = useRef<ITextField>(null);
   const lastRef = useRef<ITextField>(null);
@@ -49,6 +50,11 @@ function EnterPairPage({ onPairSelected }: EnterPairPageProps) {
   function onSubmit(event: React.FormEvent) {
     event.preventDefault();
 
+    if (firstLetter.length === 0 || lastLetter.length === 0) {
+      setShowErrors(true);
+      return;
+    }
+
     onPairSelected(firstLetter + lastLetter);
   }
 
@@ -57,6 +63,8 @@ function EnterPairPage({ onPairSelected }: EnterPairPageProps) {
       if (!isValidLetterInput(value)) {
         return;
       }
+
+      setShowErrors(false);
 
       handler(value.toUpperCase());
     });
@@ -99,6 +107,9 @@ function EnterPairPage({ onPairSelected }: EnterPairPageProps) {
               label="First"
               value={firstLetter}
               onChange={onFirstLetterChange}
+              errorMessage={
+                showErrors && firstLetter.length === 0 ? "Enter a letter" : ""
+              }
               maxLength={1}
               styles={{ fieldGroup: { width: 60 } }}
             />
@@ -109,6 +120,9 @@ function EnterPairPage({ onPairSelected }: EnterPairPageProps) {
               value={lastLetter}
               onChange={onLastLetterChange}
               onKeyDown={onLastLetterKeydown}
+              errorMessage={
+                showErrors && lastLetter.length === 0 ? "Enter a letter" : ""
+              }
               maxLength={1}
               styles={{ fieldGroup: { width: 60 } }}
             />
