@@ -260,15 +260,15 @@ function RevealPage({ pair, onRestartClicked }: RevealPageProps) {
       <div>Pair: {pair}</div>
 
       <div>
+        <PrimaryButton onClick={onRestartClicked} text="Restart" />
+      </div>
+
+      <div>
         <ul>
           {data?.map((word) => (
             <li key={word}>{word}</li>
           ))}
         </ul>
-      </div>
-
-      <div>
-        <button onClick={onRestartClicked}>Restart</button>
       </div>
     </>
   );
