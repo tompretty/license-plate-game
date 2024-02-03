@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import "./App.css";
+import { ITextField, PrimaryButton, Stack, TextField } from "@fluentui/react";
+import { onChangeHandler } from "./fluentUiHelpers";
 
 function App() {
   const [page, setPage] = useState<PageKind>("ENTER");
@@ -35,35 +36,99 @@ type EnterPairPageProps = {
 };
 
 function EnterPairPage({ onPairSelected }: EnterPairPageProps) {
-  const [first, setFirst] = useState("");
-  const [last, setLast] = useState("");
+  const [firstLetter, setFirstLetter] = useState("");
+  const [lastLetter, setLastLetter] = useState("");
+
+  const firstRef = useRef<ITextField>(null);
+  const lastRef = useRef<ITextField>(null);
+
+  useEffect(() => {
+    firstRef.current?.focus();
+  }, []);
 
   function onSubmit(event: React.FormEvent) {
     event.preventDefault();
 
-    onPairSelected(first + last);
+    onPairSelected(firstLetter + lastLetter);
   }
+
+  const onLetterChangeHandler = (handler: (value: string) => void) =>
+    onChangeHandler((value: string) => {
+      if (!isValidLetterInput(value)) {
+        return;
+      }
+
+      handler(value.toUpperCase());
+    });
+
+  const onFirstLetterChange = onLetterChangeHandler((value) => {
+    setFirstLetter(value);
+
+    if (value.length > 0) {
+      lastRef.current?.focus();
+    }
+  });
+
+  const onLastLetterChange = onLetterChangeHandler((value) => {
+    setLastLetter(value);
+  });
+
+  const onLastLetterKeydown = (
+    event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    if (event.key === "Backspace") {
+      if (lastLetter.length === 0) {
+        firstRef?.current?.focus();
+      }
+    }
+  };
 
   return (
     <>
       <h1>The license plate game</h1>
 
       <form onSubmit={onSubmit}>
-        <input
-          type="text"
-          value={first}
-          onChange={(e) => setFirst(e.target.value)}
-        />
-        <input
-          type="text"
-          value={last}
-          onChange={(e) => setLast(e.target.value)}
-        />
+        <Stack tokens={{ childrenGap: "16" }}>
+          <Stack
+            styles={{ root: { maxWidth: 500 } }}
+            tokens={{ childrenGap: "16" }}
+            horizontal
+          >
+            <TextField
+              componentRef={firstRef}
+              label="First"
+              value={firstLetter}
+              onChange={onFirstLetterChange}
+              maxLength={1}
+              styles={{ fieldGroup: { width: 60 } }}
+            />
 
-        <button type="submit">Go</button>
+            <TextField
+              componentRef={lastRef}
+              label="Last"
+              value={lastLetter}
+              onChange={onLastLetterChange}
+              onKeyDown={onLastLetterKeydown}
+              maxLength={1}
+              styles={{ fieldGroup: { width: 60 } }}
+            />
+          </Stack>
+
+          <Stack.Item>
+            <PrimaryButton type="submit" text="Go" />
+          </Stack.Item>
+        </Stack>
       </form>
     </>
   );
+}
+
+function isValidLetterInput(value: string): boolean {
+  return value.length === 0 || isLetter(value);
+}
+
+function isLetter(value: string): boolean {
+  return /^[a-zA-Z]$/.test(value);
 }
 
 type PlayGamePageProps = {
