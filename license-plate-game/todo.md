@@ -10,9 +10,12 @@
 
 ## Shared
 
+- [x] move components into folders
+- [ ] share title + pair
+- [ ] factor out shared 'answers' component
+- [ ] factor out 'word list' abstraction
 - [ ] router?
 - [ ] share query
-- [ ] share title + pair
 
 ## Reveal
 
