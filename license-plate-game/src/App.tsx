@@ -27,7 +27,13 @@ function App() {
       )}
 
       {page === "REVEAL" && (
-        <RevealAnswers pair={pair} onRestartClicked={() => setPage("ENTER")} />
+        <RevealAnswers
+          pair={pair}
+          onRestartClicked={() => {
+            setPage("ENTER");
+            setPair("");
+          }}
+        />
       )}
     </>
   );

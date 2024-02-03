@@ -11,11 +11,12 @@
 ## Shared
 
 - [x] move components into folders
-- [ ] share title + pair
+- [x] share title + pair
 - [ ] factor out shared 'answers' component
 - [ ] factor out 'word list' abstraction
+- [ ] consistent casing
+- [ ] fix styles
 - [ ] router?
-- [ ] share query
 
 ## Reveal
 
