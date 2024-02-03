@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ITextField, PrimaryButton, Stack, TextField } from "@fluentui/react";
 import { onChangeHandler } from "./fluentUiHelpers";
+import { useImmer } from "use-immer";
 
 function App() {
   const [page, setPage] = useState<PageKind>("ENTER");
@@ -164,7 +165,7 @@ function PlayGamePage({ pair, onRevealClicked }: PlayGamePageProps) {
     guessRef.current?.focus();
   }, []);
 
-  const [guessedWords, setGuessedWords] = useState<WordsByLength>([]);
+  const [guessedWords, updateGuessedWords] = useImmer<WordsByLength>({});
 
   function onGuessSubmitted(event: React.FormEvent) {
     event.preventDefault();
@@ -181,18 +182,15 @@ function PlayGamePage({ pair, onRevealClicked }: PlayGamePageProps) {
       return;
     }
 
-    let updatedWords: string[] = [];
-    if (!guessedWords[guess.length]) {
-      updatedWords = [guess];
-    } else {
-      updatedWords = [...guessedWords[guess.length], guess];
-    }
-
-    setGuessedWords({
-      ...guessedWords,
-      [guess.length]: updatedWords,
+    updateGuessedWords((draft) => {
+      if (!draft[guess.length]) {
+        draft[guess.length] = [];
+      }
+      draft[guess.length].push(guess);
     });
+
     setGuess("");
+
     guessRef.current?.focus();
   }
 
@@ -221,13 +219,17 @@ function PlayGamePage({ pair, onRevealClicked }: PlayGamePageProps) {
         <h2>Answers</h2>
 
         <div>
+          <PrimaryButton onClick={onRevealClicked} text="Reveal" />
+        </div>
+
+        <div>
           {Object.entries(guessedWords)
             .sort(([a], [b]) => parseInt(b) - parseInt(a))
             .map(([length, words]) => (
-              <div>
+              <div key={length}>
                 <h3>{length} letter words</h3>
 
-                <ul key={length}>
+                <ul>
                   {words.map((word) => (
                     <li key={word}>{word}</li>
                   ))}
@@ -235,10 +237,6 @@ function PlayGamePage({ pair, onRevealClicked }: PlayGamePageProps) {
               </div>
             ))}
         </div>
-      </div>
-
-      <div>
-        <PrimaryButton onClick={onRevealClicked} text="Reveal" />
       </div>
     </>
   );
