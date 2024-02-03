@@ -63,48 +63,44 @@ export function EnterPair({ onPairSelected }: EnterPairPageProps) {
   };
 
   return (
-    <>
-      <h1>The license plate game</h1>
+    <form onSubmit={onSubmit}>
+      <Stack tokens={{ childrenGap: "16" }}>
+        <Stack
+          styles={{ root: { maxWidth: 500 } }}
+          tokens={{ childrenGap: "16" }}
+          horizontal
+        >
+          <TextField
+            componentRef={firstRef}
+            label="First"
+            value={firstLetter}
+            onChange={onFirstLetterChange}
+            errorMessage={
+              showErrors && firstLetter.length === 0 ? "Enter a letter" : ""
+            }
+            maxLength={1}
+            styles={{ fieldGroup: { width: 60 } }}
+          />
 
-      <form onSubmit={onSubmit}>
-        <Stack tokens={{ childrenGap: "16" }}>
-          <Stack
-            styles={{ root: { maxWidth: 500 } }}
-            tokens={{ childrenGap: "16" }}
-            horizontal
-          >
-            <TextField
-              componentRef={firstRef}
-              label="First"
-              value={firstLetter}
-              onChange={onFirstLetterChange}
-              errorMessage={
-                showErrors && firstLetter.length === 0 ? "Enter a letter" : ""
-              }
-              maxLength={1}
-              styles={{ fieldGroup: { width: 60 } }}
-            />
-
-            <TextField
-              componentRef={lastRef}
-              label="Last"
-              value={lastLetter}
-              onChange={onLastLetterChange}
-              onKeyDown={onLastLetterKeydown}
-              errorMessage={
-                showErrors && lastLetter.length === 0 ? "Enter a letter" : ""
-              }
-              maxLength={1}
-              styles={{ fieldGroup: { width: 60 } }}
-            />
-          </Stack>
-
-          <Stack.Item>
-            <PrimaryButton type="submit" text="Go" />
-          </Stack.Item>
+          <TextField
+            componentRef={lastRef}
+            label="Last"
+            value={lastLetter}
+            onChange={onLastLetterChange}
+            onKeyDown={onLastLetterKeydown}
+            errorMessage={
+              showErrors && lastLetter.length === 0 ? "Enter a letter" : ""
+            }
+            maxLength={1}
+            styles={{ fieldGroup: { width: 60 } }}
+          />
         </Stack>
-      </form>
-    </>
+
+        <Stack.Item>
+          <PrimaryButton type="submit" text="Go" />
+        </Stack.Item>
+      </Stack>
+    </form>
   );
 }
 

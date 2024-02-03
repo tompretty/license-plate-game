@@ -15,10 +15,6 @@ export function RevealAnswers({ pair, onRestartClicked }: RevealAnswersProps) {
 
   return (
     <>
-      <h1>The license plate game</h1>
-
-      <div>Pair: {pair}</div>
-
       <div>
         <PrimaryButton onClick={onRestartClicked} text="Restart" />
       </div>

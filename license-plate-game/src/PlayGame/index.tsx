@@ -55,10 +55,6 @@ export function PlayGame({ pair, onRevealClicked }: PlayGameProps) {
 
   return (
     <>
-      <h1>The license plate game</h1>
-
-      <div>Pair: {pair}</div>
-
       <form onSubmit={onGuessSubmitted}>
         <Stack tokens={{ childrenGap: 16 }}>
           <TextField
