@@ -157,6 +157,13 @@ function PlayGamePage({ pair, onRevealClicked }: PlayGamePageProps) {
   });
 
   const [guess, setGuess] = useState("");
+
+  const guessRef = useRef<ITextField>(null);
+
+  useEffect(() => {
+    guessRef.current?.focus();
+  }, []);
+
   const [guessedWords, setGuessedWords] = useState<WordsByLength>([]);
 
   function onGuessSubmitted(event: React.FormEvent) {
@@ -167,7 +174,7 @@ function PlayGamePage({ pair, onRevealClicked }: PlayGamePageProps) {
       return;
     }
 
-    const index = data.indexOf(guess);
+    const index = data.indexOf(guess.toLowerCase());
 
     if (index === -1) {
       // TODO: something better
@@ -186,6 +193,7 @@ function PlayGamePage({ pair, onRevealClicked }: PlayGamePageProps) {
       [guess.length]: updatedWords,
     });
     setGuess("");
+    guessRef.current?.focus();
   }
 
   return (
@@ -195,13 +203,18 @@ function PlayGamePage({ pair, onRevealClicked }: PlayGamePageProps) {
       <div>Pair: {pair}</div>
 
       <form onSubmit={onGuessSubmitted}>
-        <input
-          type="text"
-          value={guess}
-          onChange={(e) => setGuess(e.target.value)}
-        />
+        <Stack tokens={{ childrenGap: 16 }}>
+          <TextField
+            componentRef={guessRef}
+            label="Word"
+            value={guess}
+            onChange={onChangeHandler((value) => setGuess(value.toUpperCase()))}
+          />
 
-        <button type="submit">Submit</button>
+          <Stack.Item>
+            <PrimaryButton type="submit" text="Submit" />
+          </Stack.Item>
+        </Stack>
       </form>
 
       <div>
@@ -225,7 +238,7 @@ function PlayGamePage({ pair, onRevealClicked }: PlayGamePageProps) {
       </div>
 
       <div>
-        <button onClick={onRevealClicked}>Reveal</button>
+        <PrimaryButton onClick={onRevealClicked} text="Reveal" />
       </div>
     </>
   );
