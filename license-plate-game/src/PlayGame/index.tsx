@@ -5,6 +5,7 @@ import { useImmer } from "use-immer";
 import { onChangeHandler } from "../fluentUiHelpers";
 import { fetchWords } from "../fetchWords";
 import { AnswersList } from "../AnswersList";
+import { WordsByLength } from "../wordsByLength";
 
 type PlayGameProps = {
   pair: string;
@@ -83,5 +84,3 @@ export function PlayGame({ pair, onRevealClicked }: PlayGameProps) {
     </>
   );
 }
-
-type WordsByLength = Record<number, string[]>;

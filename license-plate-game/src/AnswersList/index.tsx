@@ -1,6 +1,5 @@
 import { DetailsList, IColumn, IGroup, SelectionMode } from "@fluentui/react";
-
-type WordsByLength = Record<number, string[]>;
+import { WordsByLength } from "../wordsByLength";
 
 type AnswersListProps = {
   wordsByLength: WordsByLength;

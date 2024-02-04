@@ -2,13 +2,12 @@ import { PrimaryButton } from "@fluentui/react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchWords } from "../fetchWords";
 import { AnswersList } from "../AnswersList";
+import { WordsByLength } from "../wordsByLength";
 
 type RevealAnswersProps = {
   pair: string;
   onRestartClicked: () => void;
 };
-
-type WordsByLength = Record<number, string[]>;
 
 export function RevealAnswers({ pair, onRestartClicked }: RevealAnswersProps) {
   const { data } = useQuery({
