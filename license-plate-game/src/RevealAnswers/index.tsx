@@ -1,11 +1,14 @@
 import { PrimaryButton } from "@fluentui/react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchWords } from "../fetchWords";
+import { AnswersList } from "../AnswersList";
 
 type RevealAnswersProps = {
   pair: string;
   onRestartClicked: () => void;
 };
+
+type WordsByLength = Record<number, string[]>;
 
 export function RevealAnswers({ pair, onRestartClicked }: RevealAnswersProps) {
   const { data } = useQuery({
@@ -13,19 +16,23 @@ export function RevealAnswers({ pair, onRestartClicked }: RevealAnswersProps) {
     queryFn: () => fetchWords(pair),
   });
 
+  const wordsByLength: WordsByLength = {};
+  data?.forEach((word) => {
+    if (!wordsByLength[word.length]) {
+      wordsByLength[word.length] = [];
+    }
+    wordsByLength[word.length].push(word);
+  });
+
   return (
     <>
+      <h2>Answers</h2>
+
       <div>
         <PrimaryButton onClick={onRestartClicked} text="Restart" />
       </div>
 
-      <div>
-        <ul>
-          {data?.map((word) => (
-            <li key={word}>{word}</li>
-          ))}
-        </ul>
-      </div>
+      <AnswersList wordsByLength={wordsByLength} />
     </>
   );
 }
