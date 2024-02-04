@@ -18,6 +18,11 @@
 - [ ] fix styles
 - [ ] router?
 
+## Play
+
+- [ ] statistics
+- [ ] with ml??
+
 ## Reveal
 
 - [ ] grouped with stats

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useImmer } from "use-immer";
 import { onChangeHandler } from "../fluentUiHelpers";
 import { fetchWords } from "../fetchWords";
+import { AnswersList } from "../AnswersList";
 
 type PlayGameProps = {
   pair: string;
@@ -77,21 +78,7 @@ export function PlayGame({ pair, onRevealClicked }: PlayGameProps) {
           <PrimaryButton onClick={onRevealClicked} text="Reveal" />
         </div>
 
-        <div>
-          {Object.entries(guessedWords)
-            .sort(([a], [b]) => parseInt(b) - parseInt(a))
-            .map(([length, words]) => (
-              <div key={length}>
-                <h3>{length} letter words</h3>
-
-                <ul>
-                  {words.map((word) => (
-                    <li key={word}>{word}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-        </div>
+        <AnswersList wordsByLength={guessedWords} />
       </div>
     </>
   );
