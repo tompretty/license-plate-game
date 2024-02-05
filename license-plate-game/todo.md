@@ -12,18 +12,17 @@
 
 - [x] move components into folders
 - [x] share title + pair
-- [ ] factor out shared 'answers' component
-- [ ] factor out 'word list' abstraction
+- [x] factor out shared 'answers' component
+- [x] factor out 'word list' abstraction
+- [ ] design for mobile
 - [ ] consistent casing
-- [ ] fix styles
 - [ ] router?
 
 ## Play
 
-- [ ] statistics
+- [x] statistics
 - [ ] with ml??
 
 ## Reveal
 
-- [ ] grouped with stats
-- [ ] expandable?
+- [x] grouped with stats

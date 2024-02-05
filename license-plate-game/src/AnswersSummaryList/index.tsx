@@ -20,6 +20,7 @@ export function AnswersSummaryList({
 
   return (
     <DetailsList
+      styles={{ root: { maxWidth: "90vw", overflow: "auto" } }}
       items={[wordsByLengthSummary]}
       columns={columns}
       selectionMode={SelectionMode.none}
