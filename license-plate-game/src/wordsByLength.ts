@@ -6,7 +6,7 @@ export function groupWordsByLength(words: string[]): WordsByLength {
     if (!wordsByLength[word.length]) {
       wordsByLength[word.length] = [];
     }
-    wordsByLength[word.length].push(word);
+    wordsByLength[word.length]!.push(word);
   });
   return wordsByLength;
 }

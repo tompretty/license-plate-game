@@ -16,7 +16,7 @@ export function useWordCollection(): WordCollection {
         if (!draft[word.length]) {
           draft[word.length] = [];
         }
-        draft[word.length].push(word);
+        draft[word.length]!.push(word);
       });
     },
   };
