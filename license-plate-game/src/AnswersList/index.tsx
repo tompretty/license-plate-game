@@ -3,16 +3,26 @@ import { WordsByLength } from "../wordsByLength";
 
 type AnswersListProps = {
   wordsByLength: WordsByLength;
+  label: string;
 };
 
-export function AnswersList({ wordsByLength }: AnswersListProps) {
+export function AnswersList({ wordsByLength, label }: AnswersListProps) {
   const { items, groups } = getGroupedItems(wordsByLength);
+
+  const columns: IColumn[] = [
+    {
+      key: "word",
+      name: label,
+      minWidth: 50,
+      onRender: (word: string) => word,
+    },
+  ];
 
   return (
     <DetailsList
       items={items}
       groups={groups}
-      columns={COLUMNS}
+      columns={columns}
       selectionMode={SelectionMode.none}
     />
   );
@@ -47,14 +57,3 @@ function getGroupedItems(wordsByLength: WordsByLength): GroupedItems {
 
   return { items, groups };
 }
-
-// ---- Constants ---- //
-
-const COLUMNS: IColumn[] = [
-  {
-    key: "word",
-    name: "Guessed words",
-    minWidth: 50,
-    onRender: (word: string) => word,
-  },
-];

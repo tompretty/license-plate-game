@@ -27,7 +27,7 @@ export function RevealAnswers({ pair, onRestartClicked }: RevealAnswersProps) {
         <PrimaryButton onClick={onRestartClicked} text="Restart" />
       </div>
 
-      <AnswersList wordsByLength={wordsByLength} />
+      <AnswersList wordsByLength={wordsByLength} label="All words" />
     </>
   );
 }

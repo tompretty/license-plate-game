@@ -74,7 +74,10 @@ export function PlayGame({ pair, onRevealClicked }: PlayGameProps) {
           <PrimaryButton onClick={onRevealClicked} text="Reveal" />
         </div>
 
-        <AnswersList wordsByLength={guessedWords.getWordsByLength()} />
+        <AnswersList
+          wordsByLength={guessedWords.getWordsByLength()}
+          label="Guessed words"
+        />
       </div>
     </>
   );
