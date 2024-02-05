@@ -24,7 +24,7 @@ function newWordList(words: string[]): WordList {
         return false;
       }
 
-      const index = words.indexOf(word);
+      const index = words.indexOf(word.toLowerCase());
 
       return index > -1;
     },

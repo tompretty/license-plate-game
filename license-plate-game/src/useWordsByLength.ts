@@ -1,5 +1,5 @@
 import { useImmer } from "use-immer";
-import { WordsByLength } from "./wordsByLength";
+import { WordsByLength, addWord } from "./wordsByLength";
 
 type WordCollection = {
   getWordsByLength: () => WordsByLength;
@@ -13,10 +13,7 @@ export function useWordCollection(): WordCollection {
     getWordsByLength: () => words,
     addWord: (word) => {
       updateWords((draft) => {
-        if (!draft[word.length]) {
-          draft[word.length] = [];
-        }
-        draft[word.length]!.push(word);
+        addWord(draft)(word);
       });
     },
   };
