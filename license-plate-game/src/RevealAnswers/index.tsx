@@ -10,18 +10,14 @@ type RevealAnswersProps = {
 };
 
 export function RevealAnswers({ pair, onRestartClicked }: RevealAnswersProps) {
-  const { data } = useQuery({
+  const { data: wordList, isSuccess } = useQuery({
     queryKey: [pair],
     queryFn: () => fetchWords(pair),
   });
 
-  const wordsByLength: WordsByLength = {};
-  data?.forEach((word) => {
-    if (!wordsByLength[word.length]) {
-      wordsByLength[word.length] = [];
-    }
-    wordsByLength[word.length].push(word);
-  });
+  const wordsByLength: WordsByLength = isSuccess
+    ? wordList.getWordsByLength()
+    : {};
 
   return (
     <>

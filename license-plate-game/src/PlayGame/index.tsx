@@ -1,11 +1,10 @@
 import { ITextField, PrimaryButton, Stack, TextField } from "@fluentui/react";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
-import { useImmer } from "use-immer";
 import { onChangeHandler } from "../fluentUiHelpers";
 import { fetchWords } from "../fetchWords";
 import { AnswersList } from "../AnswersList";
-import { WordsByLength } from "../wordsByLength";
+import { useWordCollection } from "../useWordsByLength";
 
 type PlayGameProps = {
   pair: string;
@@ -13,7 +12,11 @@ type PlayGameProps = {
 };
 
 export function PlayGame({ pair, onRevealClicked }: PlayGameProps) {
-  const { data, isPending, error } = useQuery({
+  const {
+    data: wordList,
+    isPending,
+    error,
+  } = useQuery({
     queryKey: [pair],
     queryFn: () => fetchWords(pair),
   });
@@ -26,7 +29,7 @@ export function PlayGame({ pair, onRevealClicked }: PlayGameProps) {
     guessRef.current?.focus();
   }, []);
 
-  const [guessedWords, updateGuessedWords] = useImmer<WordsByLength>({});
+  const guessedWords = useWordCollection();
 
   function onGuessSubmitted(event: React.FormEvent) {
     event.preventDefault();
@@ -36,20 +39,12 @@ export function PlayGame({ pair, onRevealClicked }: PlayGameProps) {
       return;
     }
 
-    const index = data.indexOf(guess.toLowerCase());
-
-    if (index === -1) {
+    if (!wordList.contains(guess)) {
       // TODO: something better
       return;
     }
 
-    updateGuessedWords((draft) => {
-      if (!draft[guess.length]) {
-        draft[guess.length] = [];
-      }
-      draft[guess.length].push(guess);
-    });
-
+    guessedWords.addWord(guess);
     setGuess("");
 
     guessRef.current?.focus();
@@ -79,7 +74,7 @@ export function PlayGame({ pair, onRevealClicked }: PlayGameProps) {
           <PrimaryButton onClick={onRevealClicked} text="Reveal" />
         </div>
 
-        <AnswersList wordsByLength={guessedWords} />
+        <AnswersList wordsByLength={guessedWords.getWordsByLength()} />
       </div>
     </>
   );

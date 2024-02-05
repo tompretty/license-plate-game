@@ -1,5 +1,32 @@
-export function fetchWords(pair: string): Promise<string[]> {
-  return fetch(`http://localhost:3000/${pair}.txt`)
-    .then((res) => res.text())
-    .then((text) => text.split("\n"));
+import { WordsByLength, groupWordsByLength } from "./wordsByLength";
+
+export async function fetchWords(pair: string): Promise<WordList> {
+  const res = await fetch(`http://localhost:3000/${pair}.txt`);
+  const text = await res.text();
+  const words = text.split("\n");
+  return newWordList(words);
+}
+
+type WordList = {
+  contains: (word: string) => boolean;
+  getWordsByLength: () => WordsByLength;
+};
+
+function newWordList(words: string[]): WordList {
+  const wordsByLength = groupWordsByLength(words);
+
+  return {
+    getWordsByLength: () => wordsByLength,
+    contains: (word) => {
+      const words = wordsByLength[word.length];
+
+      if (!words) {
+        return false;
+      }
+
+      const index = words.indexOf(word);
+
+      return index > -1;
+    },
+  };
 }
