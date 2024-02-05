@@ -10,6 +10,7 @@ export async function fetchWords(pair: string): Promise<WordList> {
 type WordList = {
   contains: (word: string) => boolean;
   getWordsByLength: () => WordsByLength;
+  getWordsByLengthSummary: () => Record<number, number>;
 };
 
 function newWordList(words: string[]): WordList {
@@ -17,6 +18,14 @@ function newWordList(words: string[]): WordList {
 
   return {
     getWordsByLength: () => wordsByLength,
+    getWordsByLengthSummary: () => {
+      return Object.fromEntries(
+        Object.entries(wordsByLength).map(([length, words]) => [
+          length,
+          words.length,
+        ])
+      );
+    },
     contains: (word) => {
       const words = wordsByLength[word.length];
 

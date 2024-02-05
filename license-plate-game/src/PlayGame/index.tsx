@@ -1,10 +1,17 @@
-import { ITextField, PrimaryButton, Stack, TextField } from "@fluentui/react";
+import {
+  DefaultButton,
+  ITextField,
+  PrimaryButton,
+  Stack,
+  TextField,
+} from "@fluentui/react";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { onChangeHandler } from "../fluentUiHelpers";
 import { fetchWords } from "../fetchWords";
 import { AnswersList } from "../AnswersList";
 import { useWordCollection } from "../useWordsByLength";
+import { AnswersSummaryList } from "../AnswersSummaryList";
 
 type PlayGameProps = {
   pair: string;
@@ -50,6 +57,8 @@ export function PlayGame({ pair, onRevealClicked }: PlayGameProps) {
     guessRef.current?.focus();
   }
 
+  const [showSummary, setShowSummary] = useState(false);
+
   return (
     <>
       <form onSubmit={onGuessSubmitted}>
@@ -61,11 +70,28 @@ export function PlayGame({ pair, onRevealClicked }: PlayGameProps) {
             onChange={onChangeHandler((value) => setGuess(value.toUpperCase()))}
           />
 
-          <Stack.Item>
+          <Stack horizontal tokens={{ childrenGap: 8 }}>
             <PrimaryButton type="submit" text="Submit" />
-          </Stack.Item>
+            <DefaultButton
+              type="button"
+              text={showSummary ? "Hide summary" : "Show summary"}
+              onClick={() => setShowSummary((b) => !b)}
+            />
+          </Stack>
         </Stack>
       </form>
+
+      {showSummary && (
+        <div>
+          <h2>Summary</h2>
+
+          {wordList && (
+            <AnswersSummaryList
+              wordsByLengthSummary={wordList.getWordsByLengthSummary()}
+            />
+          )}
+        </div>
+      )}
 
       <div>
         <h2>Answers</h2>
