@@ -28,7 +28,7 @@ jobs:
     - name: Upload pages artifact
       uses: actions/upload-pages-artifact@v3
       with: 
-        path: .license-plate-game/dist
+        path: ./license-plate-game/dist
 
   deploy:
     needs: build
