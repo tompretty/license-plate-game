@@ -5,9 +5,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
-    defaults:
-      run:
-        working-directory: ./license-plate-game
+    # defaults:
+    #   run:
+    #     working-directory: ./license-plate-game
     steps:
     - uses: actions/checkout@v3
     - uses: pnpm/action-setup@v3
@@ -19,20 +19,20 @@ jobs:
         node-version: 20
         cache: 'pnpm'
     - name: Install dependencies
-      run: pnpm install
+      run:  |
+        cd license-plate-game
+        pnpm install
     - name: Build
-      run: pnpm run build
+      run:  |
+        cd license-plate-game
+        pnpm run build
     - name: Upload pages artifact
       uses: actions/upload-pages-artifact@v3
       with: 
-        path: ./dist
+        path: .license-plate-game/dist
 
   deploy:
     needs: build
-
-    defaults:
-      run:
-        working-directory: ./license-plate-game
 
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
