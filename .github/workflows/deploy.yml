@@ -18,14 +18,13 @@ jobs:
       with:
         node-version: 20
         cache: 'pnpm'
+        cache-dependency-path: ./license-plate-game/pnpm-lock.yaml
     - name: Install dependencies
-      run:  |
-        cd license-plate-game
-        pnpm install
+      working-directory: ./license-plate-game
+      run:  pnpm install
     - name: Build
-      run:  |
-        cd license-plate-game
-        pnpm run build
+      working-directory: ./license-plate-game
+      run:  pnpm run build
     - name: Upload pages artifact
       uses: actions/upload-pages-artifact@v3
       with: 
