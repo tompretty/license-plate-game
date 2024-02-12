@@ -54,7 +54,7 @@ export function PlayGame({ pair, onRevealClicked }: PlayGameProps) {
       return;
     }
 
-    guessedWords.addWord(guess);
+    guessedWords.addWord(guess.toLowerCase());
     setGuess("");
 
     guessRef.current?.focus();
