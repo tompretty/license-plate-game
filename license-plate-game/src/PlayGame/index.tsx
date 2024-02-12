@@ -1,6 +1,9 @@
 import {
   DefaultButton,
+  IStyleFunctionOrObject,
   ITextField,
+  ITextFieldStyleProps,
+  ITextFieldStyles,
   PrimaryButton,
   Stack,
   TextField,
@@ -68,6 +71,7 @@ export function PlayGame({ pair, onRevealClicked }: PlayGameProps) {
             label="Word"
             value={guess}
             onChange={onChangeHandler((value) => setGuess(value.toUpperCase()))}
+            styles={TEXT_FIELD_STYLES}
           />
 
           <Stack horizontal tokens={{ childrenGap: 8 }}>
@@ -108,3 +112,13 @@ export function PlayGame({ pair, onRevealClicked }: PlayGameProps) {
     </>
   );
 }
+
+// ---- Constants ---- //
+
+const TEXT_FIELD_STYLES: IStyleFunctionOrObject<
+  ITextFieldStyleProps,
+  ITextFieldStyles
+> = {
+  fieldGroup: { height: "2.5rem" },
+  field: { fontSize: "1.25rem" },
+};

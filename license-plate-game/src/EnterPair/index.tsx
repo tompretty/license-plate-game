@@ -1,4 +1,12 @@
-import { ITextField, PrimaryButton, Stack, TextField } from "@fluentui/react";
+import {
+  IStyleFunctionOrObject,
+  ITextField,
+  ITextFieldStyleProps,
+  ITextFieldStyles,
+  PrimaryButton,
+  Stack,
+  TextField,
+} from "@fluentui/react";
 import { useEffect, useRef, useState } from "react";
 import { onChangeHandler } from "../fluentUiHelpers";
 
@@ -63,44 +71,48 @@ export function EnterPair({ onPairSelected }: EnterPairPageProps) {
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <Stack tokens={{ childrenGap: "16" }}>
-        <Stack
-          styles={{ root: { maxWidth: 500 } }}
-          tokens={{ childrenGap: "16" }}
-          horizontal
-        >
-          <TextField
-            componentRef={firstRef}
-            label="First"
-            value={firstLetter}
-            onChange={onFirstLetterChange}
-            errorMessage={
-              showErrors && firstLetter.length === 0 ? "Enter a letter" : ""
-            }
-            maxLength={1}
-            styles={{ fieldGroup: { width: 60 } }}
-          />
+    <>
+      <h2 style={{ fontSize: "2rem" }}>Enter a pair</h2>
 
-          <TextField
-            componentRef={lastRef}
-            label="Last"
-            value={lastLetter}
-            onChange={onLastLetterChange}
-            onKeyDown={onLastLetterKeydown}
-            errorMessage={
-              showErrors && lastLetter.length === 0 ? "Enter a letter" : ""
-            }
-            maxLength={1}
-            styles={{ fieldGroup: { width: 60 } }}
-          />
+      <form onSubmit={onSubmit}>
+        <Stack tokens={{ childrenGap: "16" }}>
+          <Stack
+            styles={{ root: { maxWidth: 500 } }}
+            tokens={{ childrenGap: "16" }}
+            horizontal
+          >
+            <TextField
+              componentRef={firstRef}
+              label="First"
+              value={firstLetter}
+              onChange={onFirstLetterChange}
+              errorMessage={
+                showErrors && firstLetter.length === 0 ? "Enter a letter" : ""
+              }
+              maxLength={1}
+              styles={TEXT_FIELD_STYLES}
+            />
+
+            <TextField
+              componentRef={lastRef}
+              label="Last"
+              value={lastLetter}
+              onChange={onLastLetterChange}
+              onKeyDown={onLastLetterKeydown}
+              errorMessage={
+                showErrors && lastLetter.length === 0 ? "Enter a letter" : ""
+              }
+              maxLength={1}
+              styles={TEXT_FIELD_STYLES}
+            />
+          </Stack>
+
+          <Stack.Item>
+            <PrimaryButton type="submit" text="Go" />
+          </Stack.Item>
         </Stack>
-
-        <Stack.Item>
-          <PrimaryButton type="submit" text="Go" />
-        </Stack.Item>
-      </Stack>
-    </form>
+      </form>
+    </>
   );
 }
 
@@ -113,3 +125,13 @@ function isValidLetterInput(value: string): boolean {
 function isLetter(value: string): boolean {
   return /^[a-zA-Z]$/.test(value);
 }
+
+// ---- Constants ---- //
+
+const TEXT_FIELD_STYLES: IStyleFunctionOrObject<
+  ITextFieldStyleProps,
+  ITextFieldStyles
+> = {
+  fieldGroup: { width: "6.5rem", height: "6.5rem" },
+  field: { fontSize: "4rem", textAlign: "center" },
+};
