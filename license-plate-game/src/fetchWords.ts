@@ -1,7 +1,7 @@
 import { WordsByLength, groupWordsByLength } from "./wordsByLength";
 
 export async function fetchWords(pair: string): Promise<WordList> {
-  const res = await fetch(`http://localhost:3000/${pair}.txt`);
+  const res = await fetch(`/words/${pair}.txt`);
   const text = await res.text();
   const words = text.split("\n");
   return newWordList(words);
