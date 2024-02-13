@@ -1,7 +1,9 @@
 import { WordsByLength, groupWordsByLength } from "./wordsByLength";
 
 export async function fetchWords(pair: string): Promise<WordList> {
-  const res = await fetch(`/words/${pair}.txt`);
+  const res = await fetch(
+    `/license-plate-game/words/${pair.toLowerCase()}.txt`
+  );
   const text = await res.text();
   const words = text.split("\n");
   return newWordList(words);
